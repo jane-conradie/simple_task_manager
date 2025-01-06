@@ -12,6 +12,9 @@ function App() {
   const [isEditing, setIsEditing] = useState(false);
   const [taskBeingEdited, setTaskBeingEdited] = useState();
 
+  const [filter, setFilter] = useState("");
+  const [searchString, setSearchString] = useState();
+
   // const [showForm, setShowForm] = useState(false);
   // const [newTaskName, setNewTaskName] = useState("");
   // const [taskBeingEdited, setTaskBeingEdited] = useState();
@@ -142,25 +145,32 @@ function App() {
 
   console.log(tasks);
 
+  const filteredTasks =
+    filter !== "" || searchString !== ""
+      ? tasks.filter(
+          (task) =>
+            task.isComplete == filter && task.name.includes(searchString)
+        )
+      : tasks;
+
+  const handleSearchChange = (event) => {
+    setSearchString(event.target.value);
+  };
+
   return (
-    // <>
-    //   <h1>To Do:</h1>
-    //   <TaskList
-    //     tasks={tasks}
-    //     saveEdit={saveEdit}
-    //     newTaskName={newTaskName}
-    //     setNewTaskName={setNewTaskName}
-    //   />
-    //   {showForm ? (
-    //     <TaskForm setNewTaskName={setNewTaskName} submitTask={addTask} />
-    //   ) : (
-    //     <div></div>
-    //   )}
-    //   <button onClick={() => setShowForm(!showForm)}>Add task</button>
-    // </>
     <>
       <h1>To Do</h1>
-      {tasks.map((task) => (
+      <div>
+        <h2>Filter:</h2>
+        <button onClick={() => setFilter(true)}>Completed</button>
+        <button onClick={() => setFilter(false)}>Incompleted</button>
+        <button onClick={() => setFilter("")}>All</button>
+      </div>
+      <div>
+        <h2>Search</h2>
+        <input type="text" onChange={handleSearchChange} />
+      </div>
+      {filteredTasks.map((task) => (
         <div>
           {isEditing && task && task.id === taskBeingEdited.id ? (
             <div>
