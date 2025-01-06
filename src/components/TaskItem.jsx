@@ -1,34 +1,11 @@
-import { useState } from "react";
-import TaskForm from "./TaskForm";
-
-const TaskItem = ({ task, newTaskName, setNewTaskName, deleteTask }) => {
-  // to do set user input focus on form field after clikcing add
-  const [toggleEdit, setToggleEdit] = useState(false);
-
+const TaskItem = ({ task, markAsComplete, deleteTask, toggleEdit }) => {
   return (
     <div>
-      {toggleEdit ? (
-        <TaskForm
-          submitTask={editTask}
-          taskName={newTaskName}
-          setNewTaskName={setNewTaskName}
-        />
-      ) : (
-        <div>
-          {task.name}
-          {task.isComplete ? <p>i done</p> : <p></p>}
-
-          <button
-            onClick={() => {
-              setToggleEdit(!toggleEdit);
-              setNewTaskName(task.name);
-            }}
-          >
-            edit
-          </button>
-          <button onClick={() => deleteTask(task.id)}>delete</button>
-        </div>
-      )}
+      {task.name}
+      <p>task completion: {String(task.isComplete)}</p>
+      <button onClick={() => markAsComplete(task.id)}>mark as complete</button>
+      <button onClick={() => deleteTask(task.id)}>delete</button>
+      <button onClick={() => toggleEdit(task)}>edit</button>
     </div>
   );
 };

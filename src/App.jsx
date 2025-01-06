@@ -1,76 +1,37 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-import TaskList from "./components/TaskList";
-import TaskForm from "./components/TaskForm";
+import { TaskForm, TaskList, Search, Filter } from "./components";
 
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  const [newTaskName, setNewTaskName] = useState();
+  const [newTaskName, setNewTaskName] = useState("");
 
   const [isEditing, setIsEditing] = useState(false);
   const [taskBeingEdited, setTaskBeingEdited] = useState();
 
   const [filter, setFilter] = useState("");
-  const [searchString, setSearchString] = useState();
+  const [searchString, setSearchString] = useState("");
 
-  // const [showForm, setShowForm] = useState(false);
-  // const [newTaskName, setNewTaskName] = useState("");
-  // const [taskBeingEdited, setTaskBeingEdited] = useState();
+  useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+    setTasks(savedTasks);
+  }, []);
 
-  // useEffect(() => {
-  //   const savedTasks = JSON.parse(localStorage.getItem("tasks"));
-  //   if (savedTasks) {
-  //     setTasks(savedTasks);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("tasks", JSON.stringify(tasks));
-  // }, [tasks]);
-
-  // console.log(tasks);
-
-  // const addTask = (event) => {
-  //   event.preventDefault();
-
-  //   const newTask = {
-  //     id: tasks.length + 1,
-  //     name: newTaskName,
-  //     isCompleted: false,
-  //   };
-
-  //   setTasks(tasks.concat(newTask));
-  //   setShowForm(false);
-  // };
-
-  // const saveEdit = (task) => {
-  //   console.log(tasks);
-  //   console.log(task);
-  //   // remove old
-  //   const taskToEdit = localStorage.getItem("tasks", task);
-  //   console.log(taskToEdit);
-
-  //   taskToEdit.name = task.name;
-  //   // add new
-
-  //   // setTasks(tasks.concat(task));
-  // };
-
-  // const deleteTask = (id) => {
-  //   // remove from local stroage usign key
-  //   const newTasks = tasks.filter((task) => task.id !== id);
-
-  //   setTasks(tasks.concat(newTasks));
-
-  //   // remove from tasks
-  //   localStorage.removeItem("tasks", id);
-  // };
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const validateField = () => {
     const parsedValue = newTaskName.replace(/\s/g, "");
     return parsedValue === "" ? false : true;
+  };
+
+  const handleInputChange = (event) => {
+    event.preventDefault();
+
+    setNewTaskName(event.target.value);
   };
 
   const addTask = (event) => {
@@ -94,10 +55,6 @@ function App() {
     setNewTaskName("");
   };
 
-  const handleInputChange = (event) => {
-    setNewTaskName(event.target.value);
-  };
-
   const deleteTask = (id) => {
     // remove from tasks
     setTasks(tasks.filter((task) => task.id !== id));
@@ -108,14 +65,13 @@ function App() {
 
     const isValid = validateField();
 
+    // form validation
     if (!isValid) {
       alert("Cannot enter an empty field.");
       return;
     }
 
-    // set form input as value
-    console.log(taskBeingEdited);
-
+    // update task details
     const task = tasks.find((t) => t.id === taskBeingEdited.id);
     const changedTask = { ...task, name: newTaskName };
 
@@ -143,64 +99,38 @@ function App() {
     setNewTaskName(task.name);
   };
 
-  console.log(tasks);
-
   const filteredTasks =
     filter !== "" || searchString !== ""
-      ? tasks.filter(
-          (task) =>
-            task.isComplete == filter && task.name.includes(searchString)
+      ? tasks.filter((task) =>
+          filter === ""
+            ? task.name.includes(searchString)
+            : task.isComplete == filter && task.name.includes(searchString)
         )
       : tasks;
-
-  const handleSearchChange = (event) => {
-    setSearchString(event.target.value);
-  };
 
   return (
     <>
       <h1>To Do</h1>
-      <div>
-        <h2>Filter:</h2>
-        <button onClick={() => setFilter(true)}>Completed</button>
-        <button onClick={() => setFilter(false)}>Incompleted</button>
-        <button onClick={() => setFilter("")}>All</button>
-      </div>
-      <div>
-        <h2>Search</h2>
-        <input type="text" onChange={handleSearchChange} />
-      </div>
-      {filteredTasks.map((task) => (
-        <div>
-          {isEditing && task && task.id === taskBeingEdited.id ? (
-            <div>
-              <form onSubmit={editTask}>
-                <input
-                  type="text"
-                  onChange={handleInputChange}
-                  value={newTaskName}
-                />
-                <button>Save edit</button>
-              </form>
-            </div>
-          ) : (
-            <div>
-              {task.name}
-              <p>task completion: {String(task.isComplete)}</p>
-              <button onClick={() => markAsComplete(task.id)}>
-                mark as complete
-              </button>
-              <button onClick={() => deleteTask(task.id)}>delete</button>
-              <button onClick={() => toggleEdit(task)}>edit</button>
-            </div>
-          )}
-        </div>
-      ))}
+      <Filter setFilter={setFilter} />
+      <Search setSearchString={setSearchString} />
+      <TaskList
+        filteredTasks={filteredTasks}
+        isEditing={isEditing}
+        markAsComplete={markAsComplete}
+        deleteTask={deleteTask}
+        editTask={editTask}
+        toggleEdit={toggleEdit}
+        taskBeingEdited={taskBeingEdited}
+        newTaskName={newTaskName}
+        handleInputChange={handleInputChange}
+      />
+      <h2>Add a new task:</h2>
       {!isEditing ? (
-        <form onSubmit={addTask}>
-          <input type="text" onChange={handleInputChange} value={newTaskName} />
-          <button>Save</button>
-        </form>
+        <TaskForm
+          handleInputChange={handleInputChange}
+          submitTask={addTask}
+          taskName={newTaskName}
+        />
       ) : (
         <div></div>
       )}
