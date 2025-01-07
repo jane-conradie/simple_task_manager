@@ -4,8 +4,8 @@ const Search = ({ setSearchString }) => {
   };
 
   return (
-    <div>
-      <h2>Search</h2>
+    <div className={"sorter"}>
+      <h2>Search:</h2>
       <input type="text" onChange={handleSearchChange} />
     </div>
   );

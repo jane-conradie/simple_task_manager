@@ -111,8 +111,10 @@ function App() {
   return (
     <>
       <h1>To Do</h1>
-      <Filter setFilter={setFilter} />
-      <Search setSearchString={setSearchString} />
+      <div className="sorting">
+        <Filter setFilter={setFilter} />
+        <Search setSearchString={setSearchString} />
+      </div>
       <TaskList
         filteredTasks={filteredTasks}
         isEditing={isEditing}

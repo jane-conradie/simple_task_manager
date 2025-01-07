@@ -1,0 +1,9 @@
+.tasklist {
+  max-width: 65%;
+  margin: 3rem auto;
+}
+
+.edit-form {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,5 +1,7 @@
-import TaskItem from "./TaskItem";
-import TaskForm from "./TaskForm";
+import TaskItem from "../TaskItem/TaskItem";
+import TaskForm from "../TaskForm";
+
+import "./style.css";
 
 const TaskList = ({
   filteredTasks,
@@ -13,15 +15,17 @@ const TaskList = ({
   toggleEdit,
 }) => {
   return (
-    <ol>
+    <ol className="tasklist">
       {filteredTasks?.map((task) => (
         <div>
           {isEditing && task?.id === taskBeingEdited?.id ? (
-            <TaskForm
-              handleInputChange={handleInputChange}
-              submitTask={editTask}
-              taskName={newTaskName}
-            />
+            <div className="edit-form">
+              <TaskForm
+                handleInputChange={handleInputChange}
+                submitTask={editTask}
+                taskName={newTaskName}
+              />
+            </div>
           ) : (
             <TaskItem
               key={task.id}

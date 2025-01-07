@@ -1,0 +1,22 @@
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+}
+
+.delete {
+  background-color: rgb(194, 61, 61);
+  color: white;
+}
+
+.checkmark {
+  border: none;
+  background-color: transparent;
+
+  outline: none !important;
+}

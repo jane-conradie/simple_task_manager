@@ -1,6 +1,6 @@
 const Filter = ({ setFilter }) => {
   return (
-    <div>
+    <div className={"sorter"}>
       <h2>Filter:</h2>
       <button onClick={() => setFilter(true)}>Completed</button>
       <button onClick={() => setFilter(false)}>Incompleted</button>
