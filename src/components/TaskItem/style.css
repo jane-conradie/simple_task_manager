@@ -4,19 +4,11 @@
 
   text-align: left;
 
-  @media screen and (min-width: 300px) {
-    flex-wrap: wrap;
-    justify-content: center;
+  width: 90%;
 
-    text-align: center;
-    justify-items: center;
-  }
-
-  @media screen and (min-width: 768px) {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .buttons {
@@ -25,6 +17,11 @@
   @media screen and (min-width: 300px) {
     padding: 0.8rem 0;
   }
+}
+
+.icon {
+  height: 100%;
+  width: 20px;
 }
 
 .delete {

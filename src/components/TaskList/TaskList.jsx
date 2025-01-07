@@ -45,14 +45,14 @@ const TaskList = () => {
                 <TaskForm submitTask={editTask} />
               </div>
             ) : (
-              <div>
-                <TaskItem key={task.id} task={task} />
+              <div className="task-item">
                 <button
                   className="checkmark"
                   onClick={() => markTaskAsCompleted(task.id)}
                 >
                   <Checkmark fill={`${task.isComplete ? "green" : "grey"}`} />
                 </button>
+                <TaskItem key={task.id} task={task} />
               </div>
             )}
           </div>

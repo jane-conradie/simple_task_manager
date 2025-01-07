@@ -10,6 +10,21 @@
   }
 }
 
+.task-item {
+  display: flex;
+  align-items: center;
+
+  /* @media screen and (max-width: 436px) {
+    display: block;
+  } */
+}
+
+/* .checkmark {
+  @media screen and (max-width: 436px) {
+    position: absolute;
+  }
+} */
+
 .edit-form {
   display: flex;
   justify-content: space-between;
