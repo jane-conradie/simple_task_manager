@@ -3,10 +3,31 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  @media screen and (min-width: 300px) {
+    max-width: 55%;
+  }
+
+  @media screen and (min-width: 689px) {
+    max-width: 70%;
+  }
 }
 
 .sorting {
   display: flex;
+
+  @media screen and (min-width: 300px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 689px) {
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 1192px) {
+    justify-content: space-between;
+  }
 }
 
 .sorter {
@@ -16,5 +37,9 @@
 
   > h2 {
     margin: 0 15px;
+  }
+
+  @media screen and (min-width: 300px) {
+    padding: 0;
   }
 }

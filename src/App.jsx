@@ -23,27 +23,13 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const validateField = () => {
-    const parsedValue = newTaskName.replace(/\s/g, "");
-    return parsedValue === "" ? false : true;
-  };
-
   const handleInputChange = (event) => {
     event.preventDefault();
 
     setNewTaskName(event.target.value);
   };
 
-  const addTask = (event) => {
-    event.preventDefault();
-
-    const isValid = validateField();
-
-    if (!isValid) {
-      alert("Cannot enter an empty field.");
-      return;
-    }
-
+  const addTask = () => {
     const task = {
       id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0,
       name: newTaskName,
@@ -60,17 +46,7 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const editTask = (event) => {
-    event.preventDefault();
-
-    const isValid = validateField();
-
-    // form validation
-    if (!isValid) {
-      alert("Cannot enter an empty field.");
-      return;
-    }
-
+  const editTask = () => {
     // update task details
     const task = tasks.find((t) => t.id === taskBeingEdited.id);
     const changedTask = { ...task, name: newTaskName };
@@ -132,6 +108,7 @@ function App() {
           handleInputChange={handleInputChange}
           submitTask={addTask}
           taskName={newTaskName}
+          className="edit-form"
         />
       ) : (
         <div></div>

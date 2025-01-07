@@ -1,3 +1,5 @@
+import "./style.css";
+
 const Filter = ({ setFilter }) => {
   return (
     <div className={"sorter"}>

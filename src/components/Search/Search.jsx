@@ -1,12 +1,14 @@
+import "./style.css";
+
 const Search = ({ setSearchString }) => {
   const handleSearchChange = (event) => {
     setSearchString(event.target.value);
   };
 
   return (
-    <div className={"sorter"}>
+    <div className={"sorter search"}>
       <h2>Search:</h2>
-      <input type="text" onChange={handleSearchChange} />
+      <input className="search-bar" type="text" onChange={handleSearchChange} />
     </div>
   );
 };

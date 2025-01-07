@@ -1,5 +1,5 @@
 import TaskItem from "../TaskItem/TaskItem";
-import TaskForm from "../TaskForm";
+import TaskForm from "../TaskForm/TaskForm";
 
 import "./style.css";
 
@@ -16,27 +16,31 @@ const TaskList = ({
 }) => {
   return (
     <ol className="tasklist">
-      {filteredTasks?.map((task) => (
-        <div>
-          {isEditing && task?.id === taskBeingEdited?.id ? (
-            <div className="edit-form">
-              <TaskForm
-                handleInputChange={handleInputChange}
-                submitTask={editTask}
-                taskName={newTaskName}
+      {filteredTasks.length > 0 ? (
+        filteredTasks?.map((task) => (
+          <div>
+            {isEditing && task?.id === taskBeingEdited?.id ? (
+              <div className="edit-form">
+                <TaskForm
+                  handleInputChange={handleInputChange}
+                  submitTask={editTask}
+                  taskName={newTaskName}
+                />
+              </div>
+            ) : (
+              <TaskItem
+                key={task.id}
+                task={task}
+                markAsComplete={markAsComplete}
+                deleteTask={deleteTask}
+                toggleEdit={toggleEdit}
               />
-            </div>
-          ) : (
-            <TaskItem
-              key={task.id}
-              task={task}
-              markAsComplete={markAsComplete}
-              deleteTask={deleteTask}
-              toggleEdit={toggleEdit}
-            />
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        ))
+      ) : (
+        <p>No tasks to show</p>
+      )}
     </ol>
   );
 };

@@ -5,7 +5,7 @@ import { Checkmark } from "../../svgs/Checkmark";
 const TaskItem = ({ task, markAsComplete, deleteTask, toggleEdit }) => {
   return (
     <div className="task">
-      {task.name}
+      <p>{task.name}</p>
       <div className="buttons">
         <button className="checkmark" onClick={() => markAsComplete(task.id)}>
           <Checkmark fill={`${task.isComplete ? "green" : "grey"}`} />
