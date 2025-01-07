@@ -1,16 +1,24 @@
 import "./style.css";
 
-import { Checkmark } from "../../svgs/Checkmark";
+import useStore from "../../store";
+import { useShallow } from "zustand/shallow";
 
-const TaskItem = ({ task, markAsComplete, deleteTask, toggleEdit }) => {
+const TaskItem = ({ task }) => {
+  const { deleteTask, toggleEdit } = useStore(
+    useShallow((state) => {
+      return {
+        deleteTask: state.deleteTask,
+        toggleEdit: state.toggleEdit,
+        editTask: state.editTask,
+      };
+    })
+  );
+
   return (
     <div className="task">
       <p>{task.name}</p>
       <div className="buttons">
-        <button className="checkmark" onClick={() => markAsComplete(task.id)}>
-          <Checkmark fill={`${task.isComplete ? "green" : "grey"}`} />
-        </button>
-        <button onClick={() => toggleEdit(task)}>EDIT</button>
+        <button onClick={() => toggleEdit(task.id, task.name)}>EDIT</button>
         <button className="delete" onClick={() => deleteTask(task.id)}>
           DELETE
         </button>

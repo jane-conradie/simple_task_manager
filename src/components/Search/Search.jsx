@@ -3,7 +3,20 @@ import "./style.css";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useEffect, useState } from "react";
 
-const Search = ({ setSearchString }) => {
+import useStore from "../../store";
+import { useShallow } from "zustand/shallow";
+
+const Search = () => {
+  const { search, setSearch, filterTasks } = useStore(
+    useShallow((state) => {
+      return {
+        search: state.search,
+        setSearch: state.setSearch,
+        filterTasks: state.filterTasks,
+      };
+    })
+  );
+
   const [searchValue, setSearchValue] = useState("");
   const searchQuery = useDebounce(searchValue, 500);
 
@@ -12,8 +25,12 @@ const Search = ({ setSearchString }) => {
   };
 
   useEffect(() => {
-    setSearchString(searchValue);
+    setSearch(searchValue);
   }, [searchQuery]);
+
+  useEffect(() => {
+    filterTasks();
+  }, [search]);
 
   return (
     <div className={"sorter search"}>
